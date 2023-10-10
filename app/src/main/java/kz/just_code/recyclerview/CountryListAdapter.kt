@@ -38,7 +38,7 @@ class CountryListAdapter(
         BaseCountryViewHolder<ItemCountryBinding, String>(binding) {
         override fun bindView(item: String) {
             // Log.e("Item", ">>> Item: $item")
-            binding.root.text = item
+            binding.title.text = item
         }
     }
 

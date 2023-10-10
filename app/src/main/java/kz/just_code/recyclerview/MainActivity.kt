@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kz.just_code.recyclerview.databinding.ActivityMainBinding
+import kz.just_code.recyclerview.decoration.OffsetDecoration
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -15,28 +16,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        var position: Int = 0
-        val countryList = CountryListMaker.getCountryList(this)
-        val list: MutableList<CountryListDto> = mutableListOf()
-        countryList.forEachIndexed{ index, item ->
-            if (index % 8 == 0) list.add(CountryListDto(CountryListType.REGION_VIEW, "Region $index"))
-           else  list.add(CountryListDto(CountryListType.COUNTRY_VIEW, item))
-        }
-        val adapter = CountryListAdapter(list)
+        val adapter = CountryListAdapter(getTransformedList())
+        val offsetDecoration = OffsetDecoration(start = 16, top = 2, end = 16, bottom = 2)
 
         binding.listView.adapter = adapter
-        binding.listView.layoutManager = LinearLayoutManager( this, RecyclerView.VERTICAL, false)
-            //StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-    //GridLayoutManager(this, 2, RecyclerView.VERTICAL, true)
+        binding.listView.addItemDecoration(offsetDecoration)
+        binding.listView.layoutManager = LinearLayoutManager( this)
+    }
 
-        binding.addButton.setOnClickListener{
-                countryList[position] = position.toString()
-                adapter.notifyItemChanged(position)
-            position++
-//            list.add(countryList[list.size])
-//            adapter.notifyItemRangeChanged(list.size, list.size)
+    private fun getTransformedList(): List<CountryListDto>{
+        val countryList = CountryListMaker.getCountryList(this)
+        val list: MutableList<CountryListDto> = mutableListOf()
+
+        countryList.forEachIndexed{ index, item ->
+            val previousitem = if (index > 0 ) countryList[index - 1] else null
+
+            if (previousitem?.firstOrNull()?.lowercase() != item.firstOrNull()?.lowercase())
+                list.add(CountryListDto(CountryListType.REGION_VIEW, item.firstOrNull().toString()))
+            else  list.add(CountryListDto(CountryListType.COUNTRY_VIEW, item))
         }
-
+        return list
     }
 }
