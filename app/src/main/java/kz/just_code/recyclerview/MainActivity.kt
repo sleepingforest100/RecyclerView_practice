@@ -2,11 +2,13 @@ package kz.just_code.recyclerview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceActivity.Header
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kz.just_code.recyclerview.databinding.ActivityMainBinding
+import kz.just_code.recyclerview.decoration.HeaderDecoraton
 import kz.just_code.recyclerview.decoration.OffsetDecoration
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.listView.adapter = adapter
         binding.listView.addItemDecoration(offsetDecoration)
+        binding.listView.addItemDecoration(HeaderDecoraton())
         binding.listView.layoutManager = LinearLayoutManager( this)
     }
 
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                 list.add(CountryListDto(CountryListType.REGION_VIEW, item.firstOrNull().toString()))
             else  list.add(CountryListDto(CountryListType.COUNTRY_VIEW, item))
         }
+        list.add(CountryListDto(CountryListType.SPACING_VIEW, ""))
         return list
     }
 }
