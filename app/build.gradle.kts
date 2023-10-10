@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "kz.just_code.recyclerview"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "kz.just_code.recyclerview"
@@ -32,6 +32,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures{
+        viewBinding=true
     }
 }
 
