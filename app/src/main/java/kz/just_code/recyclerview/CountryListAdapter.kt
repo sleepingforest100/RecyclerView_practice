@@ -1,5 +1,6 @@
 package kz.just_code.recyclerview
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ return CountryViewHolder(
     class CountryViewHolder(private val binding: ItemCountryBinding):
         RecyclerView.ViewHolder(binding.root){
             fun bindView(item: String){
+               // Log.e("Item", ">>> Item: $item")
                 binding.root.text = item
             }
     }
