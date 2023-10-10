@@ -18,8 +18,12 @@ class MainActivity : AppCompatActivity() {
 
         var position: Int = 0
         val countryList = CountryListMaker.getCountryList(this)
-        val list: MutableList<String> = mutableListOf()
-        val adapter = CountryListAdapter(countryList)
+        val list: MutableList<CountryListDto> = mutableListOf()
+        countryList.forEachIndexed{ index, item ->
+            if (index % 8 == 0) list.add(CountryListDto(CountryListType.REGION_VIEW, "Region $index"))
+           else  list.add(CountryListDto(CountryListType.COUNTRY_VIEW, item))
+        }
+        val adapter = CountryListAdapter(list)
 
         binding.listView.adapter = adapter
         binding.listView.layoutManager = LinearLayoutManager( this, RecyclerView.VERTICAL, false)
