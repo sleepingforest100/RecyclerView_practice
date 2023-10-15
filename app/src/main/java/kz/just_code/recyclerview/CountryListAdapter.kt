@@ -4,36 +4,44 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import kz.just_code.recyclerview.base.BaseCountryViewHolder
 import kz.just_code.recyclerview.databinding.ItemCountryBinding
 import kz.just_code.recyclerview.databinding.ItemRegionBinding
 import kz.just_code.recyclerview.databinding.ItemSpacingBinding
 
 class CountryListAdapter(
     private val items: List<CountryListDto>
-): RecyclerView.Adapter<BaseCountryViewHolder<*, String>>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseCountryViewHolder<*, String> {
+) : RecyclerView.Adapter<BaseCountryViewHolder<*>>() {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseCountryViewHolder<*> {
         return when (viewType) {
             CountryListType.REGION_VIEW.ordinal -> HeaderViewHolder(
                 ItemRegionBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
-        CountryListType.COUNTRY_VIEW.ordinal -> CountryViewHolder(
-            ItemCountryBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
-        )
+
+            CountryListType.COUNTRY_VIEW.ordinal -> CountryViewHolder(
+                ItemCountryBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
             else -> SpacingViewHolder(
                 ItemSpacingBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 ), 16
             )
-    }
+        }
     }
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: BaseCountryViewHolder<*, String>, position: Int) {
-        holder.bindView(items[position].name)
+    override fun onBindViewHolder(holder: BaseCountryViewHolder<*>, position: Int) {
+        holder.bindView(items[position])
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -41,31 +49,27 @@ class CountryListAdapter(
     }
 
     class CountryViewHolder(override val binding: ItemCountryBinding) :
-        BaseCountryViewHolder<ItemCountryBinding, String>(binding) {
-        override fun bindView(item: String) {
-            // Log.e("Item", ">>> Item: $item")
-            binding.title.text = item
+        BaseCountryViewHolder<ItemCountryBinding>(binding) {
+
+        override fun bindView(item: CountryListDto) {
+            binding.title.text = item.name
         }
     }
 
     class HeaderViewHolder(override val binding: ItemRegionBinding) :
-        BaseCountryViewHolder<ItemRegionBinding, String>(binding) {
-        override fun bindView(item: String) {
-            // Log.e("Item", ">>> Item: $item")
-            binding.root.text = item
+        BaseCountryViewHolder<ItemRegionBinding>(binding) {
+
+        override fun bindView(item: CountryListDto) {
+            binding.root.text = item.name
+
+            binding.root.setOnClickListener {
+
+            }
         }
-
     }
-
 }
 
-abstract class BaseCountryViewHolder<VB: ViewBinding, T>(protected open val binding: VB):
-    RecyclerView.ViewHolder(binding.root){
-   abstract fun bindView(item: T)
-}
-
-
-enum class CountryListType{
+enum class CountryListType {
     REGION_VIEW, COUNTRY_VIEW, SPACING_VIEW
 }
 
