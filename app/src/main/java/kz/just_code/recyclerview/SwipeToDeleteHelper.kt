@@ -65,14 +65,15 @@ fun RecyclerView.swipeToDelete(deleteAction: (Int) -> Unit){
 
                     }
 
-                    if (scrollOffset > 50.dp)
-                    val iconRect = RectF(
-                        left.toFloat() - 50.dp,
-                        top.toFloat() + 28.dp,
-                        right.toFloat() - 30.dp,
-                        bottom.toFloat() - 30.dp
-                    )
-                    c.drawBitmap(image, null, iconRect, paint)
+                    if (scrollOffset > 50.dp) {
+                        val iconRect = RectF(
+                            left.toFloat() - 50.dp,
+                            top.toFloat() + 28.dp,
+                            right.toFloat() - 30.dp,
+                            bottom.toFloat() - 30.dp
+                        )
+                        c.drawBitmap(image, null, iconRect, paint)
+                    }
                 }
 
             }

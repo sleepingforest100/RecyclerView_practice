@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.ListAdapter
 import kz.just_code.recyclerview.base.BaseContinentViewHolder
 import kz.just_code.recyclerview.databinding.ItemContinentBinding
 
-class ContinentAdapter :
+class ContinentAdapter() :
     ListAdapter<ContinentDto, BaseContinentViewHolder<*>>(ContinentDiffUtils()) {
 
+    var itemClick: ((ContinentDto)->Unit)? = null
     class ContinentDiffUtils : DiffUtil.ItemCallback<ContinentDto>() {
         override fun areItemsTheSame(oldItem: ContinentDto, newItem: ContinentDto): Boolean {
             return oldItem.id == newItem.id
@@ -22,12 +23,16 @@ class ContinentAdapter :
         }
     }
 
-    class ContinentViewHolder(binding: ItemContinentBinding) :
+    class ContinentViewHolder(binding: ItemContinentBinding, private val click:((ContinentDto)->Unit)? ) :
         BaseContinentViewHolder<ItemContinentBinding>(binding) {
         override fun bindView(item: ContinentDto) {
             with(binding) {
                 image.setImageResource(item.image)
                 title.text = itemView.context.getString(item.name)
+            }
+
+            itemView.setOnClickListener(){
+                click?.invoke(item)
             }
         }
     }
@@ -36,7 +41,7 @@ class ContinentAdapter :
         return ContinentViewHolder(
             ItemContinentBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
-            )
+            ), itemClick
         )
     }
 

@@ -10,7 +10,7 @@ abstract class BaseViewHolder<VB: ViewBinding, T>(protected open val binding: VB
     abstract fun bindView(item: T)
 }
 
-abstract class BaseCountryViewHolder<VB: ViewBinding, T>( override val binding: VB):
+abstract class BaseCountryViewHolder<VB: ViewBinding>( override val binding: VB):
     BaseViewHolder<VB, CountryListDto>(binding)
 
 abstract class BaseContinentViewHolder<VB: ViewBinding>(override val binding: VB):

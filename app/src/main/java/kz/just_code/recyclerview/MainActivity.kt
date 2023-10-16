@@ -46,6 +46,13 @@ class MainActivity : AppCompatActivity() {
         }
         continentAdapter.submitList(getContinentList())
 
+        continentAdapter.itemClick = itemClickListener()
+    }
+    private fun itemClickListener(): (ContinentDto)-> Unit{
+        return {
+            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun getTransformedList(): List<CountryListDto>{
